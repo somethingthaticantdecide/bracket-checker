@@ -70,4 +70,18 @@ public class BracketValidatorImplTest {
         assertFalse(validator.isTextValid("[789{012]]"));
         assertFalse(validator.isTextValid("{345}678}"));
     }
+
+    @Test
+    public void testInvalidText_emptyBrackets() {
+        BracketValidatorImpl validator = new BracketValidatorImpl();
+        assertFalse(validator.isTextValid("()"));
+        assertFalse(validator.isTextValid("[]"));
+        assertFalse(validator.isTextValid("{}"));
+        assertFalse(validator.isTextValid("() ABC"));
+        assertFalse(validator.isTextValid("[] ABC"));
+        assertFalse(validator.isTextValid("{} ABC"));
+        assertFalse(validator.isTextValid("ABC ()"));
+        assertFalse(validator.isTextValid("ABC []"));
+        assertFalse(validator.isTextValid("ABC {}"));
+    }
 }

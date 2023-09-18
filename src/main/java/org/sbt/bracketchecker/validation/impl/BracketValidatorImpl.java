@@ -10,6 +10,10 @@ import java.util.Stack;
 public class BracketValidatorImpl implements BracketValidator {
 
     public boolean isTextValid(String text) {
+        return areBracketsValid(text) && !isTextInsideBracketsValid(text);
+    }
+
+    public boolean areBracketsValid(String text) {
         if (text.isEmpty()) {
             return false;
         }
@@ -33,6 +37,32 @@ public class BracketValidatorImpl implements BracketValidator {
         }
 
         return stack.isEmpty();
+    }
+
+    public boolean isTextInsideBracketsValid(String text) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : text.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else if (c == ')' || c == '}' || c == ']') {
+                if (stack.isEmpty() || !isMatchingBracket(stack.pop(), c)) {
+                    return false;
+                }
+            } else if (!stack.isEmpty()) {
+                if (!Character.isWhitespace(c)) {
+                    stack.pop();
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
+    private static boolean isMatchingBracket(char openingBracket, char closingBracket) {
+        return openingBracket == '(' && closingBracket == ')' ||
+                openingBracket == '{' && closingBracket == '}' ||
+                openingBracket == '[' && closingBracket == ']';
     }
 
 }
